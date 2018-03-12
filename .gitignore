@@ -1,0 +1,11 @@
+/blockchain
+build/
+3rdParty/
+*.out
+*.directory
+/.idea/
+*.log
+/vendor/
+/.glide/
+*.tmp
+

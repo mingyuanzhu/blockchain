@@ -1,11 +1,11 @@
 package main
 
 import (
-	"strings"
 	"crypto/sha256"
 	"encoding/hex"
-	"time"
 	"log"
+	"strings"
+	"time"
 )
 
 /**
@@ -14,7 +14,7 @@ Timestamp is automatically determined and is the time the data is written
 BPM or beats per minute, is your pulse rate
 Hash is a SHA256 identifier representing this data record
 PrevHash is the SHA256 identifier of the previous record in the chain
- */
+*/
 type Block struct {
 	Index     int
 	Timestamp string
@@ -37,7 +37,7 @@ func calculateHash(block Block) (string, error) {
 }
 
 func generateNewBlock(preBlock Block, BPM int) (Block, error) {
-	block := Block {
+	block := Block{
 		Index:     preBlock.Index + 1,
 		Timestamp: time.Now().String(),
 		BPM:       BPM,
@@ -53,7 +53,7 @@ func generateNewBlock(preBlock Block, BPM int) (Block, error) {
 
 func isBlockValid(preBlock, newBlock Block) bool {
 
-	if preBlock.Index + 1 != newBlock.Index {
+	if preBlock.Index+1 != newBlock.Index {
 		log.Printf("index invalid")
 		return false
 	}
@@ -76,9 +76,11 @@ func isBlockValid(preBlock, newBlock Block) bool {
 }
 
 func replaceChain(newBlocks []Block) {
+	mutex.Lock()
 	if len(newBlocks) > len(Blockchain) {
 		Blockchain = newBlocks
 	}
+	mutex.Unlock()
 }
 
 func appendChain(block Block) []Block {
